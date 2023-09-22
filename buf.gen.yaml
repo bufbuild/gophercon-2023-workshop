@@ -1,0 +1,16 @@
+version: v1
+plugins:
+  # TODO: use remote plugins from demo host
+  - plugin: buf.build/protocolbuffers/go
+    out: gen
+    opt: paths=source_relative
+  - plugin: buf.build/connectrpc/go
+    out: gen
+    opt: paths=source_relative
+managed:
+  enabled: true
+  go_package_prefix:
+    default: github.com/bufbuild/gophercon-2023-workshop/gen
+    override:
+      # TODO: change host to match demo host
+      buf.build/bufbuild/confluent: buf.build/gen/go/bufbuild/confluent/protocolbuffers/go

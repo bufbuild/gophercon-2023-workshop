@@ -1,0 +1,16 @@
+syntax="proto3";
+
+package emails.v1;
+
+import "buf/confluent/v1/extensions.proto";
+
+message EmailUpdated {
+  uint64 user_id = 1;
+  string old_address = 2;
+  string new_address = 3;
+
+  option (buf.confluent.v1.subject) = {
+    instance_name: "<FILL ME IN>",
+    name: "email-updated-value",
+  };
+}

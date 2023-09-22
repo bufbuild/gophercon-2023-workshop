@@ -1,0 +1,29 @@
+syntax="proto3";
+
+package emails.v1;
+
+service EmailService {
+  rpc GetEmail(GetEmailRequest) returns (GetEmailResponse);
+  rpc UpdateEmail(UpdateEmailRequest) returns (UpdateEmailResponse);
+}
+
+message UserEmail {
+  uint64 user_id = 1;
+  string email_address = 2;
+  bool verified = 3;
+}
+
+message GetEmailRequest {
+  uint64 user_id = 1;
+}
+
+message GetEmailResponse {
+  UserEmail user_email = 1;
+}
+
+message UpdateEmailRequest {
+  uint64 user_id = 1;
+  string new_address = 2;
+}
+
+message UpdateEmailResponse {}
