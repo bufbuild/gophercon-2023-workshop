@@ -95,19 +95,3 @@
        -d '{ "user_id": 123 }' \
        localhost:8888/emails.v1.EmailService/GetEmail
    ```
-
-### Introspect via AKHQ
-
-1. Uncomment `schema-registry` block in [`docker/akhq.yml`](docker/akhq.yml) and
-   update the `url` and `basic-auth-*` fields to match the values in `config.go`. 
-
-1. Restart the AKHQ container:
-
-   ```
-   docker-compose -f ./docker/docker-compose.yml restart akhq
-   ```
-
-1. Navigate to http://localhost:8080 to view the AKHQ dashboard.
-
-1. The topic used by the demo should be visible in AKHQ, and the records 
-   published should be legible due to the schema-registry connection.
