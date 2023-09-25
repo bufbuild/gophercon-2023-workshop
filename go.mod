@@ -1,6 +1,6 @@
 module github.com/bufbuild/gophercon-2023-workshop
 
-go 1.21.1
+go 1.21
 
 require (
 	buf-gophercon.buf.dev/gen/go/bufbuild/confluent/protocolbuffers/go v1.31.0-20230924205432-ee8a085b5982.1
