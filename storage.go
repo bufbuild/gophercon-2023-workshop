@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"strconv"
 	"sync"
 
 	"connectrpc.com/connect"
@@ -70,6 +71,7 @@ func (s *Storage) emitEvent(event *emailsv1.EmailUpdated) {
 			Topic:     &topicName,
 			Partition: kafka.PartitionAny,
 		},
+		Key:   []byte(strconv.FormatUint(event.GetUserId(), 10)),
 		Value: payload,
 	}, delivery)
 	if err != nil {

@@ -3,6 +3,8 @@ package main
 import (
 	"context"
 	"log"
+	"sync/atomic"
+	"time"
 
 	emailsv1 "github.com/bufbuild/gophercon-2023-workshop/gen/emails/v1"
 	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
@@ -14,12 +16,14 @@ type VerifierDaemon struct {
 	store        *Storage
 	consumer     *kafka.Consumer
 	deserializer serde.Deserializer
+	enabled      *atomic.Bool
 }
 
 func NewVerifier(
 	store *Storage,
 	csrClient schemaregistry.Client,
 	consumer *kafka.Consumer,
+	enabled *atomic.Bool,
 ) (*VerifierDaemon, error) {
 	des, err := NewDeserializer(csrClient)
 	if err != nil {
@@ -29,11 +33,12 @@ func NewVerifier(
 		store:        store,
 		consumer:     consumer,
 		deserializer: des,
+		enabled:      enabled,
 	}, nil
 }
 
 func (v *VerifierDaemon) Run(ctx context.Context) error {
-	err := v.consumer.SubscribeTopics([]string{TopicName}, nil)
+	err := v.consumer.Subscribe(TopicName, nil)
 	if err != nil {
 		return err
 	}
@@ -43,9 +48,11 @@ func (v *VerifierDaemon) Run(ctx context.Context) error {
 	for {
 		select {
 		case <-ctx.Done():
-			return ctx.Err()
+			return nil
 		default:
-			if err = v.consume(); err != nil {
+			if !v.enabled.Load() {
+				time.Sleep(time.Second)
+			} else if err = v.consume(); err != nil {
 				return err
 			}
 		}

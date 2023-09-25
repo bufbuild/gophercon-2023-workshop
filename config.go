@@ -1,12 +1,13 @@
 package main
 
 const (
-	KafkaBootstrapServers = "localhost:19092"
+	KafkaBootstrapServers = "localhost:39092"
 	ServiceAddress        = "localhost:8888"
 	TopicName             = "email-updated"
 	ConsumerGroupID       = "email-verifier"
+	CSRInstanceBase       = "https://buf-gophercon.buf.dev/integrations/confluent/"
 
-	CSRInstanceURL = "<FILL ME IN>"
-	BSRUser        = "<FILL ME IN>"
-	BSRToken       = "<FILL ME IN>"
+	CSRInstanceName = "<CSR INSTANCE NAME>"
+	BSRUser         = "<MACHINE USERNAME>"
+	BSRToken        = "<MACHINE TOKEN>"
 )

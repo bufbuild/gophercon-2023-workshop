@@ -10,7 +10,7 @@ message EmailUpdated {
   string new_address = 3;
 
   option (buf.confluent.v1.subject) = {
-    instance_name: "<FILL ME IN>",
+    instance_name: "<CSR INSTANCE NAME>",
     name: "email-updated-value",
   };
 }

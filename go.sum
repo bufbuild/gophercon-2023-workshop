@@ -1,7 +1,7 @@
 bazil.org/fuse v0.0.0-20160811212531-371fbbdaa898/go.mod h1:Xbm+BRKSBEpa4q4hTSxohYNQpsxXPbPry4JJWOB3LB8=
 bazil.org/fuse v0.0.0-20200407214033-5883e5a4b512/go.mod h1:FbcW6z/2VytnFDhZfumh8Ss8zxHE6qpMP5sHTRe0EaM=
-buf.build/gen/go/bufbuild/confluent/protocolbuffers/go v1.31.0-20230720222802-0831d49ebe5a.1 h1:iMiV1wW90R5DzzS7XulcuCgjAdkXRc6z8UXClgvc8Zw=
-buf.build/gen/go/bufbuild/confluent/protocolbuffers/go v1.31.0-20230720222802-0831d49ebe5a.1/go.mod h1:7qr6TBp6t0VwoQ7kPyZFekDRwQ5dsnpy3GlLC4uT4B4=
+buf-gophercon.buf.dev/gen/go/bufbuild/confluent/protocolbuffers/go v1.31.0-20230924205432-ee8a085b5982.1 h1:ur3vsSvV906h32dqE8X8ONTuS7KDmZdZyXVWDko9+x8=
+buf-gophercon.buf.dev/gen/go/bufbuild/confluent/protocolbuffers/go v1.31.0-20230924205432-ee8a085b5982.1/go.mod h1:jXH6O2h0PnM8DGScyTCir//GmDMZYne6ld4XRF4+jNM=
 cloud.google.com/go v0.26.0/go.mod h1:aQUYkXzVsufM+DwF1aE+0xfcU+56JwCaLick0ClmMTw=
 cloud.google.com/go v0.34.0/go.mod h1:aQUYkXzVsufM+DwF1aE+0xfcU+56JwCaLick0ClmMTw=
 cloud.google.com/go v0.38.0/go.mod h1:990N+gfupTy94rShfmMCWGDn0LpTmnzTp2qbd1dvSRU=

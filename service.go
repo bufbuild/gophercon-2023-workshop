@@ -2,7 +2,10 @@ package main
 
 import (
 	"context"
+	"errors"
+	"log"
 	"net/http"
+	"sync/atomic"
 	"time"
 
 	"connectrpc.com/connect"
@@ -10,14 +13,16 @@ import (
 	"github.com/bufbuild/gophercon-2023-workshop/gen/emails/v1/emailsv1connect"
 )
 
-func NewService(store *Storage) *EmailService {
-	return &EmailService{
-		store: store,
-	}
+type EmailService struct {
+	store           *Storage
+	verifierEnabled *atomic.Bool
 }
 
-type EmailService struct {
-	store *Storage
+func NewService(store *Storage, verifierEnabled *atomic.Bool) *EmailService {
+	return &EmailService{
+		store:           store,
+		verifierEnabled: verifierEnabled,
+	}
 }
 
 func (e *EmailService) Run(ctx context.Context) error {
@@ -33,7 +38,11 @@ func (e *EmailService) Run(ctx context.Context) error {
 		defer cancel()
 		_ = srv.Shutdown(shutdownCtx)
 	}()
-	return srv.ListenAndServe()
+	log.Println("Listening on", ServiceAddress)
+	if err := srv.ListenAndServe(); errors.Is(err, http.ErrServerClosed) {
+		return err
+	}
+	return nil
 }
 
 func (e *EmailService) GetEmail(ctx context.Context, req *connect.Request[emailsv1.GetEmailRequest]) (*connect.Response[emailsv1.GetEmailResponse], error) {
@@ -51,4 +60,9 @@ func (e *EmailService) UpdateEmail(ctx context.Context, req *connect.Request[ema
 		return nil, err
 	}
 	return connect.NewResponse(&emailsv1.UpdateEmailResponse{}), nil
+}
+
+func (e *EmailService) ToggleVerifier(ctx context.Context, c *connect.Request[emailsv1.ToggleVerifierRequest]) (*connect.Response[emailsv1.ToggleVerifierResponse], error) {
+	e.verifierEnabled.Store(c.Msg.Enabled)
+	return connect.NewResponse(&emailsv1.ToggleVerifierResponse{}), nil
 }

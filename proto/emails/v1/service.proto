@@ -5,6 +5,7 @@ package emails.v1;
 service EmailService {
   rpc GetEmail(GetEmailRequest) returns (GetEmailResponse);
   rpc UpdateEmail(UpdateEmailRequest) returns (UpdateEmailResponse);
+  rpc ToggleVerifier(ToggleVerifierRequest) returns (ToggleVerifierResponse);
 }
 
 message UserEmail {
@@ -27,3 +28,9 @@ message UpdateEmailRequest {
 }
 
 message UpdateEmailResponse {}
+
+message ToggleVerifierRequest {
+  bool enabled = 1;
+}
+
+message ToggleVerifierResponse {}

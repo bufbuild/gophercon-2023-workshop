@@ -9,7 +9,7 @@ import (
 
 func NewClient() (schemaregistry.Client, error) {
 	cfg := schemaregistry.NewConfigWithAuthentication(
-		CSRInstanceURL, BSRUser, BSRToken)
+		CSRInstanceBase+CSRInstanceName, BSRUser, BSRToken)
 	return schemaregistry.NewClient(cfg)
 }
 

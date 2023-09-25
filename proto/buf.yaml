@@ -1,6 +1,7 @@
 version: v1
+name: buf-gophercon.buf.dev/gophercon-csr-demo/<BSR REPO NAME>
 deps:
-  - buf.build/bufbuild/confluent
+  - buf-gophercon.buf.dev/bufbuild/confluent
 breaking:
   use:
     - FILE

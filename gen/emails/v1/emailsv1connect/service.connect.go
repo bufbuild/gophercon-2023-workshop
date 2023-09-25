@@ -38,12 +38,16 @@ const (
 	// EmailServiceUpdateEmailProcedure is the fully-qualified name of the EmailService's UpdateEmail
 	// RPC.
 	EmailServiceUpdateEmailProcedure = "/emails.v1.EmailService/UpdateEmail"
+	// EmailServiceToggleVerifierProcedure is the fully-qualified name of the EmailService's
+	// ToggleVerifier RPC.
+	EmailServiceToggleVerifierProcedure = "/emails.v1.EmailService/ToggleVerifier"
 )
 
 // EmailServiceClient is a client for the emails.v1.EmailService service.
 type EmailServiceClient interface {
 	GetEmail(context.Context, *connect.Request[v1.GetEmailRequest]) (*connect.Response[v1.GetEmailResponse], error)
 	UpdateEmail(context.Context, *connect.Request[v1.UpdateEmailRequest]) (*connect.Response[v1.UpdateEmailResponse], error)
+	ToggleVerifier(context.Context, *connect.Request[v1.ToggleVerifierRequest]) (*connect.Response[v1.ToggleVerifierResponse], error)
 }
 
 // NewEmailServiceClient constructs a client for the emails.v1.EmailService service. By default, it
@@ -66,13 +70,19 @@ func NewEmailServiceClient(httpClient connect.HTTPClient, baseURL string, opts .
 			baseURL+EmailServiceUpdateEmailProcedure,
 			opts...,
 		),
+		toggleVerifier: connect.NewClient[v1.ToggleVerifierRequest, v1.ToggleVerifierResponse](
+			httpClient,
+			baseURL+EmailServiceToggleVerifierProcedure,
+			opts...,
+		),
 	}
 }
 
 // emailServiceClient implements EmailServiceClient.
 type emailServiceClient struct {
-	getEmail    *connect.Client[v1.GetEmailRequest, v1.GetEmailResponse]
-	updateEmail *connect.Client[v1.UpdateEmailRequest, v1.UpdateEmailResponse]
+	getEmail       *connect.Client[v1.GetEmailRequest, v1.GetEmailResponse]
+	updateEmail    *connect.Client[v1.UpdateEmailRequest, v1.UpdateEmailResponse]
+	toggleVerifier *connect.Client[v1.ToggleVerifierRequest, v1.ToggleVerifierResponse]
 }
 
 // GetEmail calls emails.v1.EmailService.GetEmail.
@@ -85,10 +95,16 @@ func (c *emailServiceClient) UpdateEmail(ctx context.Context, req *connect.Reque
 	return c.updateEmail.CallUnary(ctx, req)
 }
 
+// ToggleVerifier calls emails.v1.EmailService.ToggleVerifier.
+func (c *emailServiceClient) ToggleVerifier(ctx context.Context, req *connect.Request[v1.ToggleVerifierRequest]) (*connect.Response[v1.ToggleVerifierResponse], error) {
+	return c.toggleVerifier.CallUnary(ctx, req)
+}
+
 // EmailServiceHandler is an implementation of the emails.v1.EmailService service.
 type EmailServiceHandler interface {
 	GetEmail(context.Context, *connect.Request[v1.GetEmailRequest]) (*connect.Response[v1.GetEmailResponse], error)
 	UpdateEmail(context.Context, *connect.Request[v1.UpdateEmailRequest]) (*connect.Response[v1.UpdateEmailResponse], error)
+	ToggleVerifier(context.Context, *connect.Request[v1.ToggleVerifierRequest]) (*connect.Response[v1.ToggleVerifierResponse], error)
 }
 
 // NewEmailServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -107,12 +123,19 @@ func NewEmailServiceHandler(svc EmailServiceHandler, opts ...connect.HandlerOpti
 		svc.UpdateEmail,
 		opts...,
 	)
+	emailServiceToggleVerifierHandler := connect.NewUnaryHandler(
+		EmailServiceToggleVerifierProcedure,
+		svc.ToggleVerifier,
+		opts...,
+	)
 	return "/emails.v1.EmailService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case EmailServiceGetEmailProcedure:
 			emailServiceGetEmailHandler.ServeHTTP(w, r)
 		case EmailServiceUpdateEmailProcedure:
 			emailServiceUpdateEmailHandler.ServeHTTP(w, r)
+		case EmailServiceToggleVerifierProcedure:
+			emailServiceToggleVerifierHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -128,4 +151,8 @@ func (UnimplementedEmailServiceHandler) GetEmail(context.Context, *connect.Reque
 
 func (UnimplementedEmailServiceHandler) UpdateEmail(context.Context, *connect.Request[v1.UpdateEmailRequest]) (*connect.Response[v1.UpdateEmailResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("emails.v1.EmailService.UpdateEmail is not implemented"))
+}
+
+func (UnimplementedEmailServiceHandler) ToggleVerifier(context.Context, *connect.Request[v1.ToggleVerifierRequest]) (*connect.Response[v1.ToggleVerifierResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("emails.v1.EmailService.ToggleVerifier is not implemented"))
 }

@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"os/signal"
+	"sync/atomic"
 
 	"golang.org/x/sync/errgroup"
 )
@@ -17,33 +18,19 @@ func main() {
 		log.Fatal(err)
 	}
 
-	csrClient, err := NewClient()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	producer, err := NewProducer()
-	if err != nil {
-		log.Fatal(err)
-	}
+	producer := must(NewProducer())
 	defer producer.Close()
 
-	consumer, err := NewConsumer()
-	if err != nil {
-		log.Fatal(err)
-	}
+	consumer := must(NewConsumer())
+	defer consumer.Close()
 
-	store, err := NewStore(csrClient, producer)
-	if err != nil {
-		log.Fatal(err)
-	}
+	csrClient := must(NewClient())
+	store := must(NewStore(csrClient, producer))
 
-	verifier, err := NewVerifier(store, csrClient, consumer)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	service := NewService(store)
+	enabled := &atomic.Bool{}
+	enabled.Store(true)
+	verifier := must(NewVerifier(store, csrClient, consumer, enabled))
+	service := NewService(store, enabled)
 
 	grp, ctx := errgroup.WithContext(ctx)
 	grp.Go(func() error { return service.Run(ctx) })
@@ -52,4 +39,11 @@ func main() {
 	if err := grp.Wait(); err != nil {
 		log.Fatal(err)
 	}
+}
+
+func must[T any](value T, err error) T {
+	if err != nil {
+		log.Fatal(err)
+	}
+	return value
 }

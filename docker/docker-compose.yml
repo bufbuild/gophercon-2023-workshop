@@ -27,12 +27,15 @@ services:
       KAFKA_METADATA_LOG_MAX_RECORD_BYTES_BETWEEN_SNAPSHOTS: 2800
       KAFKA_LOG_DIRS: '/tmp/kraft-combined-logs'
       KAFKA_MIN_INSYNC_REPLICAS: 1
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     volumes:
       - kafka1-data:/var/lib/kafka/data
       - ./update_run.sh:/tmp/update_run.sh
     command: "bash -c '/tmp/update_run.sh && /etc/confluent/docker/run'"
   akhq:
     image: tchiotludo/akhq:dev
+    depends_on:
+      - kafka1
     ports:
       - "8080:8080"
     volumes:

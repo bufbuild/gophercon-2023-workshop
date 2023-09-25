@@ -3,3 +3,8 @@ akhq:
     local:
       properties:
         bootstrap.servers: "kafka1:19092"
+#      schema-registry:
+#        url: "https://buf-gophercon.buf.dev/integrations/confluent/<CSR INSTANCE NAME>"
+#        type: "confluent"
+#        basic-auth-username: <MACHINE USERNAME>
+#        basic-auth-password: <MACHINE TOKEN>
