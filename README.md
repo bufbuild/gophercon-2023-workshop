@@ -2,9 +2,9 @@
 
 ## Requirements
 
-- Go toolchain 1.21.1+
+- Go toolchain 1.21+
 - Docker
-- Buf CLI
+- [Buf CLI](https://buf.build/docs/installation)
 
 ## Setup steps
 
@@ -19,7 +19,7 @@
 1. Start downloading Docker images (~1.5GB total)
 
    ```
-   docker-compose -f ./docker/docker-compose.yml pull
+   cd gophercon-2023-workshop && docker-compose -f ./docker/docker-compose.yml pull
    ```
 
 1. [Login to the BSR](https://buf-gophercon.buf.dev/) using demo credentials (provided by presenter).
