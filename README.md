@@ -44,7 +44,7 @@
 
 1. Update `CSRInstanceName` in [`config.go`](config.go) with the instance name you just created.
 
-1. Update `BSRToken` in [`config.go`](config.go) with the token you created earlier (found in `$HOME/.netrc`).
+1. Update `BSRToken` in [`config.go`](config.go) with the token you created earlier (also found in `$HOME/.netrc`).
 
 ### Creating the BSR Repository and CSR Subject/Schema
 
@@ -66,7 +66,7 @@
 
 ### Run the demo app
 
-1. Boot up the Kafka broker and AKHQ server:
+1. Boot up the Kafka broker:
 
    ```
    docker-compose -f ./docker/docker-compose.yml up -d
@@ -95,3 +95,13 @@
        -d '{ "user_id": 123 }' \
        localhost:8888/emails.v1.EmailService/GetEmail
    ```
+
+## Cleanup
+
+After completing the demo, you can stop Docker and remove credentials from your
+machine with the following commands:
+
+```
+buf registry logout buf-gophercon.buf.dev
+docker-compose -f docker/docker-compose.yml down --volumes --rmi all
+```
