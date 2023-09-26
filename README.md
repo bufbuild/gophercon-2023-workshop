@@ -13,7 +13,7 @@
 
 1. Clone this repo
 
-   ```
+   ```shell
    git clone https://github.com/bufbuild/gophercon-2023-workshop.git
    cd gophercon-2023-workshop
    ```
@@ -34,7 +34,7 @@
 
 1. Set `GOPRIVATE` environment variable to skip the Go module proxy for remote package code generation.
 
-   ```
+   ```shell
    export GOPRIVATE="${GOPRIVATE},buf-gophercon.buf.dev/gen/go"
    ```
 
@@ -80,8 +80,8 @@
 
 1. In another terminal window, send a request to update an email address:
 
-   ```
-   curl -XPOST -H"content-type:application/json" \
+   ```shell
+   curl -X POST -H "content-type:application/json" \
        -d '{ "user_id": 123, "new_address": "gophercon@buf.build" }' \
        localhost:8888/emails.v1.EmailService/UpdateEmail
    ```
@@ -90,8 +90,8 @@
    shortly after the verification of the email address. You can see the email 
    is marked as verified:
 
-   ```
-   curl -XPOST -H"content-type:application/json" \
+   ```shell
+   curl -X POST -H "content-type:application/json" \
        -d '{ "user_id": 123 }' \
        localhost:8888/emails.v1.EmailService/GetEmail
    ```
