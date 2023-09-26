@@ -24,7 +24,7 @@
 
 1. [Login to the BSR](https://buf-gophercon.buf.dev/) using demo credentials (provided by presenter).
 
-1. [Create a user token](https://buf-gophercon.buf.dev/settings/user) on the BSR to log into the Buf CLI.
+1. [Create a user token](https://buf-gophercon.buf.dev/settings/user) on the BSR to log into the Buf CLI. *Note*: Save this token somewhere you can easily retrieve it, we'll be using it in another step later.
 
    ```
    buf registry login buf-gophercon.buf.dev
@@ -40,11 +40,11 @@
 
 1. Navigate to the admin panel to [create a CSR instance](https://buf-gophercon.buf.dev/admin/csr). Name it something unique to you.
 
-1. Update `CSRInstanceName` in [`config.go`](config.go) with the instance name you created.
+1. Update `CSRInstanceName` in [`config.go`](config.go) with the instance name you just created.
 
-1. While in the admin panel, also [create a machine user and token](https://buf-gophercon.buf.dev/admin/machine-users) to be used by the app.
+1. Update `BSRToken` in [`config.go`](config.go) with the token you created earlier.
 
-1. Update `BSRUser` and `BSRToken` in [`config.go`](config.go) with the machine username and token you created.
+1. Update `BSRUser` in [`config.go`](config.go) with the [machine username](https://buf-gophercon.buf.dev/admin/machine-users) {TBD_USERNAME}
 
 ### Creating the BSR Repository and CSR Subject/Schema
 
