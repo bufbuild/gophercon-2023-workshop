@@ -8,6 +8,6 @@ const (
 	CSRInstanceBase       = "https://buf-gophercon.buf.dev/integrations/confluent/"
 
 	CSRInstanceName = "<CSR INSTANCE NAME>"
-	BSRUser         = "<BSR MACHINE USERNAME>"
+	BSRUser         = "gophercon-csr-demo"
 	BSRToken        = "<BSR TOKEN>"
 )

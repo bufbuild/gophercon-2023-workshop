@@ -3,6 +3,7 @@
 ## Requirements
 
 - Go toolchain 1.21+
+- Git
 - Docker
 - [Buf CLI](https://buf.build/docs/installation)
 
@@ -14,12 +15,13 @@
 
    ```
    git clone https://github.com/bufbuild/gophercon-2023-workshop.git
+   cd gophercon-2023-workshop
    ```
 
 1. Start downloading Docker images (~860MB total)
 
    ```
-   cd gophercon-2023-workshop && docker-compose -f ./docker/docker-compose.yml pull
+   docker-compose -f ./docker/docker-compose.yml pull
    ```
 
 1. [Login to the BSR](https://buf-gophercon.buf.dev/) using demo credentials (provided by presenter).
@@ -27,10 +29,10 @@
 1. [Create a user token](https://buf-gophercon.buf.dev/settings/user) on the BSR to log into the Buf CLI. *Note*: Save this token somewhere you can easily retrieve it, we'll be using it in another step later.
 
    ```
-   buf registry login buf-gophercon.buf.dev
+   buf registry login buf-gophercon.buf.dev --username gophercon-csr-demo
    ```
 
-1. Set `GOPRIVATE` environment variable to skip module cache for remote package code generation.
+1. Set `GOPRIVATE` environment variable to skip the Go module proxy for remote package code generation.
 
    ```
    export GOPRIVATE="${GOPRIVATE},buf-gophercon.buf.dev/gen/go"
@@ -42,13 +44,11 @@
 
 1. Update `CSRInstanceName` in [`config.go`](config.go) with the instance name you just created.
 
-1. Update `BSRToken` in [`config.go`](config.go) with the token you created earlier.
-
-1. Update `BSRUser` in [`config.go`](config.go) with the [machine username](https://buf-gophercon.buf.dev/admin/machine-users): `gophercon-demo-user`
+1. Update `BSRToken` in [`config.go`](config.go) with the token you created earlier (found in `$HOME/.netrc`).
 
 ### Creating the BSR Repository and CSR Subject/Schema
 
-1. Update [`proto/emails/v1/events.proto`](proto/emails/v1/events.proto) with the CSR instance name you created previously. 
+1. Update [`proto/emails/v1/events.proto`](proto/emails/v1/events.proto) with the CSR instance name you created previously.
 
 1. Update [`proto/buf.yaml`](proto/buf.yaml) with a unique `name` for the repository.
 
