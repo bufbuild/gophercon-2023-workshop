@@ -16,7 +16,7 @@
    git clone https://github.com/bufbuild/gophercon-2023-workshop.git
    ```
 
-1. Start downloading Docker images (~1.5GB total)
+1. Start downloading Docker images (~860MB total)
 
    ```
    cd gophercon-2023-workshop && docker-compose -f ./docker/docker-compose.yml pull
