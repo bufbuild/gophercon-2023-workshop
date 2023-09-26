@@ -44,7 +44,7 @@
 
 1. Update `BSRToken` in [`config.go`](config.go) with the token you created earlier.
 
-1. Update `BSRUser` in [`config.go`](config.go) with the [machine username](https://buf-gophercon.buf.dev/admin/machine-users) {TBD_USERNAME}
+1. Update `BSRUser` in [`config.go`](config.go) with the [machine username](https://buf-gophercon.buf.dev/admin/machine-users): `gophercon-demo-user`
 
 ### Creating the BSR Repository and CSR Subject/Schema
 
