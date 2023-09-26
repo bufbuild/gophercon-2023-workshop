@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"log"
 	"sync/atomic"
 	"time"
@@ -37,14 +38,19 @@ func NewVerifier(
 	}, nil
 }
 
-func (v *VerifierDaemon) Run(ctx context.Context) error {
+func (v *VerifierDaemon) Run(ctx context.Context) (retErr error) {
 	err := v.consumer.Subscribe(TopicName, nil)
 	if err != nil {
 		return err
 	}
-	defer v.consumer.Unsubscribe()
-	defer v.consumer.Commit()
-
+	defer func() {
+		if _, err := v.consumer.Commit(); err != nil {
+			retErr = errors.Join(retErr, err)
+		}
+		if err := v.consumer.Unsubscribe(); err != nil {
+			retErr = errors.Join(retErr, err)
+		}
+	}()
 	for {
 		select {
 		case <-ctx.Done():
