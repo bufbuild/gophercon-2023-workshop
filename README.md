@@ -2,7 +2,7 @@
 
 ## Requirements
 
-- Go toolchain 1.21+
+- Go 1.21+ https://go.dev/doc/install
 - Git
 - Docker
 - [Buf CLI](https://buf.build/docs/installation)
